@@ -1,0 +1,21 @@
+# ---- Frontend (extra safety) ----
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+
+# ---- Backend virtualenvs (must NOT be in git) ----
+backend/venv/
+venv/
+.venv/
+
+# ---- Python cache ----
+__pycache__/
+*.py[cod]
+
+# ---- Env / secrets ----
+.env
+backend/.env
+frontend/.env
+
+# Optional: editor settings
+.vscode/
