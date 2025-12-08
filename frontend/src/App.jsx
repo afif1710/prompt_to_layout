@@ -44,7 +44,6 @@ export default function App() {
       setResult(data);
       showToast("UI generated successfully!");
 
-      // Save project
       try {
         await saveProject({
           project_name: description.slice(0, 40) || "Untitled Project",
@@ -64,12 +63,10 @@ export default function App() {
 
   const handleCopyCode = async () => {
     if (!result?.files) return;
-
     try {
       const combined = Object.entries(result.files)
         .map(([name, content]) => `// ${name}\n${content}`)
         .join("\n\n\n");
-
       await navigator.clipboard.writeText(combined);
       showToast("All code copied to clipboard!");
     } catch (error) {
@@ -93,18 +90,8 @@ export default function App() {
           setSketchFile={setSketchFile}
           loading={loading}
         />
-        <OutputPanel
-          result={result}
-          loading={loading}
-          onCopyCode={handleCopyCode}
-        />
+        <OutputPanel result={result} loading={loading} onCopyCode={handleCopyCode} />
       </main>
     </LayoutShell>
   );
 }
-
-// export default function App() {
-//   return (
-//     <GeneratedUI />
-//   );
-// }

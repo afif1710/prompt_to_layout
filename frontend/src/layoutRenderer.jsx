@@ -31,19 +31,15 @@ function DashboardFromSpec({ spec }) {
     { label: "Revenue", value: "$42k" },
     { label: "Conversion", value: "4.7%" },
   ];
-  const tokens = getThemeTokens(spec.theme);
+
+  const t = getThemeTokens(spec.theme);
 
   return (
-    <div
-      className={
-        "min-h-[420px] rounded-2xl p-6 " +
-        (tokens.bg || "bg-slate-950 text-slate-50")
-      }
-    >
+    <div className={"min-h-[420px] rounded-2xl p-6 " + (t.page || "bg-slate-950 text-slate-50")}>
       <header
         className={
           "flex items-center justify-between rounded-2xl px-4 py-3 mb-4 " +
-          (tokens.panel || "bg-slate-950 border border-white/10")
+          (t.surface || "bg-slate-950 border border-white/10")
         }
       >
         <div>
@@ -54,12 +50,7 @@ function DashboardFromSpec({ spec }) {
             {section.title || "Analytics dashboard"}
           </h1>
           {section.subtitle && (
-            <p
-              className={
-                "mt-1 text-xs " +
-                (tokens.mutedText || "text-slate-400")
-              }
-            >
+            <p className={"mt-1 text-xs " + (t.text?.muted || "text-slate-400")}>
               {section.subtitle}
             </p>
           )}
@@ -67,28 +58,14 @@ function DashboardFromSpec({ spec }) {
       </header>
 
       <main className="grid gap-4 md:grid-cols-[220px,1fr]">
-        <aside
-          className={
-            "rounded-2xl p-4 " +
-            (tokens.panel || "bg-white/5 border border-white/10")
-          }
-        >
-          <p
-            className={
-              "text-xs font-medium uppercase " +
-              (tokens.labelText || "text-slate-400")
-            }
-          >
+        <aside className={"rounded-2xl p-4 " + (t.surface || "bg-white/5 border border-white/10")}>
+          <p className={"text-xs font-medium uppercase " + (t.text?.label || "text-slate-400")}>
             Navigation
           </p>
           <ul className="mt-3 space-y-1 text-sm">
             <li className="rounded-xl bg-white/10 px-3 py-2">Overview</li>
-            <li className="rounded-xl px-3 py-2 hover:bg-white/5">
-              Analytics
-            </li>
-            <li className="rounded-xl px-3 py-2 hover:bg-white/5">
-              Settings
-            </li>
+            <li className="rounded-xl px-3 py-2 hover:bg-white/5">Analytics</li>
+            <li className="rounded-xl px-3 py-2 hover:bg-white/5">Settings</li>
           </ul>
         </aside>
 
@@ -99,18 +76,14 @@ function DashboardFromSpec({ spec }) {
                 key={stat.label}
                 className={
                   "rounded-2xl p-4 " +
-                  (tokens.card ||
+                  (t.card ||
                     "bg-white/5 border border-white/10 shadow-xl shadow-slate-950/50")
                 }
               >
-                <p
-                  className={
-                    "text-xs " + (tokens.mutedText || "text-slate-400")
-                  }
-                >
-                  {stat.label}
+                <p className={"text-xs " + (t.text?.muted || "text-slate-400")}>{stat.label}</p>
+                <p className={"mt-2 text-2xl font-semibold " + (t.text?.primary || "")}>
+                  {stat.value}
                 </p>
-                <p className="mt-2 text-2xl font-semibold">{stat.value}</p>
               </div>
             ))}
           </div>
@@ -126,22 +99,21 @@ function AuthFromSpec({ spec }) {
   const section = spec.sections?.[0] || {};
   const title = section.title || "Welcome back";
   const subtitle =
-    section.subtitle ||
-    "Modern authentication experience for your product.";
+    section.subtitle || "Modern authentication experience for your product.";
 
-  const tokens = getThemeTokens(spec.theme);
+  const t = getThemeTokens(spec.theme);
 
   return (
     <div
       className={
         "min-h-[420px] rounded-2xl p-6 flex items-center justify-center " +
-        (tokens.bg || "bg-slate-950 text-slate-50")
+        (t.page || "bg-slate-950 text-slate-50")
       }
     >
       <div
         className={
           "grid w-full max-w-5xl gap-8 rounded-3xl p-8 md:grid-cols-[1.2fr,1fr] " +
-          (tokens.panel ||
+          (t.surface ||
             "bg-white/5 border border-white/10 shadow-xl shadow-slate-950/60 backdrop-blur-2xl")
         }
       >
@@ -151,12 +123,7 @@ function AuthFromSpec({ spec }) {
               AI Generated {(spec.theme || "UI").replace("-", " ").toUpperCase()}
             </p>
             <h1 className="mt-2 text-3xl font-semibold">{title}</h1>
-            <p
-              className={
-                "mt-3 max-w-md text-sm " +
-                (tokens.mutedText || "text-slate-300")
-              }
-            >
+            <p className={"mt-3 max-w-md text-sm " + (t.text?.muted || "text-slate-300")}>
               {subtitle}
             </p>
           </div>
@@ -165,18 +132,12 @@ function AuthFromSpec({ spec }) {
         <section
           className={
             "rounded-2xl p-6 shadow-inner " +
-            (tokens.card ||
-              "bg-slate-950/60 border border-white/10 backdrop-blur-xl")
+            (t.card || "bg-slate-950/60 border border-white/10 backdrop-blur-xl")
           }
         >
           <form className="space-y-4">
             <div>
-              <label
-                className={
-                  "text-xs font-medium " +
-                  (tokens.labelText || "text-slate-300")
-                }
-              >
+              <label className={"text-xs font-medium " + (t.text?.label || "text-slate-300")}>
                 Email
               </label>
               <input
@@ -186,12 +147,7 @@ function AuthFromSpec({ spec }) {
               />
             </div>
             <div>
-              <label
-                className={
-                  "text-xs font-medium " +
-                  (tokens.labelText || "text-slate-300")
-                }
-              >
+              <label className={"text-xs font-medium " + (t.text?.label || "text-slate-300")}>
                 Password
               </label>
               <input
@@ -200,12 +156,7 @@ function AuthFromSpec({ spec }) {
                 placeholder="••••••••"
               />
             </div>
-            <div
-              className={
-                "flex items-center justify-between text-xs " +
-                (tokens.mutedText || "text-slate-400")
-              }
-            >
+            <div className={"flex items-center justify-between text-xs " + (t.text?.muted || "text-slate-400")}>
               <label className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -213,16 +164,13 @@ function AuthFromSpec({ spec }) {
                 />
                 <span>Remember me</span>
               </label>
-              <button
-                type="button"
-                className="text-emerald-300 hover:text-emerald-200"
-              >
+              <button type="button" className="text-emerald-300 hover:text-emerald-200">
                 Forgot password?
               </button>
             </div>
             <button
               type="submit"
-              className="mt-2 w-full rounded-xl bg-emerald-500 px-3 py-2 text-sm font-medium text-slate-950 shadow-lg shadow-emerald-500/40 hover:bg-emerald-400"
+              className={"mt-2 w-full rounded-xl px-3 py-2 text-sm font-medium " + (t.button?.primary || "bg-emerald-500 text-slate-950 hover:bg-emerald-400")}
             >
               Sign in
             </button>
@@ -243,29 +191,19 @@ function PricingFromSpec({ spec }) {
     section.subtitle ||
     "Transparent pricing for modern SaaS teams. Change this text to see different copy.";
 
-  const tokens = getThemeTokens(spec.theme);
-  const isLight = (spec.theme || "") === "minimal-light";
-
-  // Button styles: force high contrast on Minimal Light
-  const primaryBtn = isLight
-    ? "bg-emerald-500 text-slate-900 hover:bg-emerald-600"
-    : "bg-emerald-500 text-slate-950 hover:bg-emerald-400";
-
-  const secondaryBtn = isLight
-    ? "bg-slate-900 text-slate-50 hover:bg-slate-800"
-    : "bg-white/10 text-slate-50 hover:bg-white/15";
+  const t = getThemeTokens(spec.theme);
 
   return (
     <div
       className={
         "min-h-[420px] rounded-2xl px-6 py-8 " +
-        (tokens.bg || "bg-slate-950 text-slate-50")
+        (t.page || "bg-slate-950 text-slate-50")
       }
     >
       <div
         className={
           "mx-auto max-w-5xl text-center rounded-3xl p-6 " +
-          (tokens.panel || "bg-slate-950 border border-white/10")
+          (t.surface || "bg-slate-950 border border-white/10")
         }
       >
         <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
@@ -273,7 +211,9 @@ function PricingFromSpec({ spec }) {
         </p>
         <h1 className="mt-2 text-3xl font-semibold">{title}</h1>
         {subtitle && (
-          <p className="mt-2 text-sm text-slate-400">{subtitle}</p>
+          <p className={"mt-2 text-sm " + (t.text?.muted || "text-slate-400")}>
+            {subtitle}
+          </p>
         )}
       </div>
 
@@ -283,7 +223,7 @@ function PricingFromSpec({ spec }) {
             key={tier.id || tier.name}
             className={[
               "rounded-3xl p-6 text-left transition-transform",
-              tokens.card ||
+              t.card ||
                 "bg-white/5 border border-white/10 shadow-xl shadow-slate-950/50",
               tier.popular
                 ? "scale-[1.04] border-emerald-400/70 ring-2 ring-emerald-400/70 bg-gradient-to-b from-emerald-400/30 via-emerald-500/15 to-slate-950/70"
@@ -300,16 +240,11 @@ function PricingFromSpec({ spec }) {
             </div>
             <p className="mt-3 text-2xl font-semibold">
               {tier.price != null ? `$${tier.price}` : "Custom"}
-              <span className="text-xs font-normal text-slate-400">
+              <span className={"text-xs font-normal " + (t.text?.muted || "text-slate-400")}>
                 {tier.price != null ? ` / ${tier.interval || "month"}` : ""}
               </span>
             </p>
-            <ul
-              className={
-                "mt-4 space-y-2 text-xs " +
-                (tokens.bulletText || "text-slate-200")
-              }
-            >
+            <ul className={"mt-4 space-y-2 text-xs " + (t.text?.bullet || "text-slate-200")}>
               <li>✔ Unlimited projects</li>
               <li>✔ Team workspaces</li>
               <li>✔ Advanced analytics</li>
@@ -319,7 +254,9 @@ function PricingFromSpec({ spec }) {
             <button
               className={[
                 "mt-5 w-full rounded-xl px-3 py-2 text-sm font-medium",
-                tier.popular ? primaryBtn : secondaryBtn,
+                tier.popular
+                  ? (t.button?.primary || "bg-emerald-500 text-slate-950 hover:bg-emerald-400")
+                  : (t.button?.secondary || "bg-white/10 text-slate-50 hover:bg-white/15"),
               ].join(" ")}
             >
               {tier.id === "enterprise" ? "Contact sales" : "Start free trial"}
@@ -341,20 +278,19 @@ function SettingsFromSpec({ spec }) {
     section.subtitle ||
     "Manage profile, team, billing and developer settings from a single panel.";
 
-  const tokens = getThemeTokens(spec.theme);
-  const isLight = (spec.theme || "") === "minimal-light";
+  const t = getThemeTokens(spec.theme);
 
   return (
     <div
       className={
         "min-h-[420px] rounded-2xl px-6 py-8 " +
-        (tokens.bg || "bg-slate-950 text-slate-50")
+        (t.page || "bg-slate-950 text-slate-50")
       }
     >
       <div
         className={
           "mx-auto max-w-6xl rounded-3xl p-6 " +
-          (tokens.panel ||
+          (t.surface ||
             "bg-white/5 border border-white/10 shadow-xl shadow-slate-950/60 backdrop-blur-xl")
         }
       >
@@ -364,12 +300,7 @@ function SettingsFromSpec({ spec }) {
           </p>
           <h1 className="mt-2 text-2xl font-semibold">{title}</h1>
           {subtitle && (
-            <p
-              className={
-                "mt-1 max-w-2xl text-sm " +
-                (tokens.mutedText || "text-slate-400")
-              }
-            >
+            <p className={"mt-1 max-w-2xl text-sm " + (t.text?.muted || "text-slate-400")}>
               {subtitle}
             </p>
           )}
@@ -380,11 +311,8 @@ function SettingsFromSpec({ spec }) {
             {tabs.map((item, index) => {
               const base =
                 "flex w-full items-center justify-between rounded-xl px-3 py-2 text-left";
-              const active = isLight
-                ? "bg-emerald-100 text-slate-900"
-                : "bg-emerald-500/15 text-slate-50";
-              const inactive =
-                (tokens.labelText || "text-slate-300") + " hover:bg-white/5";
+              const active = t.nav?.active || "bg-emerald-500/15 text-slate-50";
+              const inactive = t.nav?.inactive || "text-slate-300 hover:bg-white/5";
 
               return (
                 <button
@@ -404,54 +332,29 @@ function SettingsFromSpec({ spec }) {
             <div
               className={
                 "rounded-2xl p-5 " +
-                (tokens.card ||
-                  "bg-slate-950/60 border border-white/10 shadow-inner")
+                (t.card || "bg-slate-950/60 border border-white/10 shadow-inner")
               }
             >
               <h2 className="text-sm font-medium">Billing overview</h2>
-              <p
-                className={
-                  "mt-1 text-xs " +
-                  (tokens.mutedText || "text-slate-400")
-                }
-              >
+              <p className={"mt-1 text-xs " + (t.text?.muted || "text-slate-400")}>
                 Current plan, payment method and upcoming invoice.
               </p>
               <div className="mt-4 grid gap-4 md:grid-cols-3 text-xs">
                 <div>
-                  <p className={tokens.labelText || "text-slate-400"}>Plan</p>
-                  <p
-                    className={
-                      "mt-1 font-semibold " +
-                      (tokens.bodyText || "text-slate-100")
-                    }
-                  >
+                  <p className={t.text?.label || "text-slate-400"}>Plan</p>
+                  <p className={"mt-1 font-semibold " + (t.text?.primary || "text-slate-100")}>
                     Pro Annual
                   </p>
                 </div>
                 <div>
-                  <p className={tokens.labelText || "text-slate-400"}>
-                    Next invoice
-                  </p>
-                  <p
-                    className={
-                      "mt-1 font-semibold " +
-                      (tokens.bodyText || "text-slate-100")
-                    }
-                  >
+                  <p className={t.text?.label || "text-slate-400"}>Next invoice</p>
+                  <p className={"mt-1 font-semibold " + (t.text?.primary || "text-slate-100")}>
                     $588 · 01 Aug 2025
                   </p>
                 </div>
                 <div>
-                  <p className={tokens.labelText || "text-slate-400"}>
-                    Payment method
-                  </p>
-                  <p
-                    className={
-                      "mt-1 font-semibold " +
-                      (tokens.bodyText || "text-slate-100")
-                    }
-                  >
+                  <p className={t.text?.label || "text-slate-400"}>Payment method</p>
+                  <p className={"mt-1 font-semibold " + (t.text?.primary || "text-slate-100")}>
                     Visa •••• 4242
                   </p>
                 </div>
@@ -461,20 +364,23 @@ function SettingsFromSpec({ spec }) {
             <footer
               className={
                 "flex justify-end gap-2 border-t border-white/5 px-4 py-3 text-xs rounded-2xl " +
-                (tokens.card ? "" : "bg-slate-950/60")
+                (t.card ? "" : "bg-slate-950/60")
               }
             >
               <button
                 className={
-                  "rounded-xl border px-3 py-1.5 hover:bg-white/5 " +
-                  (isLight
-                    ? "border-slate-300 text-slate-800"
-                    : "border-white/15 text-slate-300")
+                  "rounded-xl px-3 py-1.5 font-medium " +
+                  (t.button?.ghost || "border border-white/15 text-slate-300 hover:bg-white/5")
                 }
               >
                 Cancel
               </button>
-              <button className="rounded-xl bg-emerald-500 px-3 py-1.5 font-medium text-slate-950 hover:bg-emerald-400">
+              <button
+                className={
+                  "rounded-xl px-3 py-1.5 font-medium " +
+                  (t.button?.primary || "bg-emerald-500 text-slate-950 hover:bg-emerald-400")
+                }
+              >
                 Save changes
               </button>
             </footer>
