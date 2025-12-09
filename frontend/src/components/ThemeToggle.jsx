@@ -4,37 +4,39 @@ import { classNames } from "../utils/classNames";
 const THEMES = [
   { id: "minimal-light", label: "Minimal Light", dotClass: "bg-slate-100" },
   { id: "premium-dark", label: "Premium Dark", dotClass: "bg-slate-900" },
-  { id: "frosted-glass", label: "Frosted Glass", dotClass: "bg-cyan-300" }
+  { id: "frosted-glass", label: "Frosted Glass", dotClass: "bg-cyan-300" },
+  { id: "soft-pastel", label: "Soft Pastel", dotClass: "bg-rose-100" },
+  { id: "high-contrast", label: "High Contrast", dotClass: "bg-black" },
 ];
 
 export function ThemeToggle({ value, onChange }) {
+  const current = THEMES.find((t) => t.id === value) || THEMES[0];
+
   return (
     <div className="space-y-2">
-      <p className="text-xs font-medium uppercase tracking-[0.2em] text-slate-400">
-        Theme
+      {/* Label, nudged right to align with select */}
+      <p className="ml-1 text-xs pl-2 font-medium uppercase tracking-[0.2em] text-slate-400">
+        Themes
       </p>
-      <div className="flex gap-2">
-        {THEMES.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            onClick={() => onChange(t.id)}
-            className={classNames(
-              "group flex flex-1 items-center gap-2 rounded-2xl border px-3 py-2 text-xs transition-all",
-              value === t.id
-                ? "border-brand-violet/60 bg-white/10 shadow-md shadow-black/50"
-                : "border-white/10 bg-white/5 hover:border-white/40"
-            )}
-          >
-            <span
-              className={classNames(
-                "h-2.5 w-2.5 rounded-full shadow-[0_0_0_3px_rgba(148,163,184,0.45)]",
-                t.dotClass
-              )}
-            />
-            <span className="text-slate-200">{t.label}</span>
-          </button>
-        ))}
+
+      {/* Wrapper also nudged right so control sits under label */}
+      <div className="relative ml-1">
+        <select
+          value={current.id}
+          onChange={(e) => onChange(e.target.value)}
+          // compact width + extra right padding so arrow isn't on the edge
+          className="inline-block max-w-[170px] min-w-[130px] rounded-2xl border border-white/15 bg-slate-950/70 pl-3 pr-7 py-2 text-xs text-slate-100 shadow-inner shadow-black/40 focus:border-brand-violet/70 focus:outline-none"
+        >
+          {THEMES.map((t) => (
+            <option
+              key={t.id}
+              value={t.id}
+              className="bg-slate-950 text-slate-100"
+            >
+              {t.label}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );

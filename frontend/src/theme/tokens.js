@@ -4,11 +4,11 @@
 const THEME_TOKENS = {
   "minimal-light": {
     // Page background + base text
-    page: "bg-slate-100 text-slate-900",
+    page: "bg-slate-100/90 text-slate-900",
 
     // Surfaces
     surface: "bg-white border border-slate-200 shadow-sm",
-    card: "bg-white border border-slate-200 shadow-md",
+    card: "bg-white/90 border border-slate-200 shadow-md",
 
     // Text
     text: {
@@ -34,6 +34,49 @@ const THEME_TOKENS = {
     },
 
     // Borders (if you need them separately)
+    border: {
+      subtle: "border-slate-200",
+      strong: "border-slate-400",
+    },
+  },
+
+  "soft-pastel": {
+    // Page background + base text
+    page: "bg-slate-50 text-slate-900",
+
+    // Surfaces
+    surface:
+      "bg-white/80 border border-slate-200 shadow-sm backdrop-blur-xl",
+    card:
+      "bg-white/90 border border-slate-200 shadow-md backdrop-blur-xl",
+
+    // Text
+    text: {
+      primary: "text-slate-900",
+      secondary: "text-slate-800",
+      // still need enough contrast on near‑white surfaces
+      muted: "text-slate-600",
+      label: "text-slate-700",
+      bullet: "text-slate-800",
+    },
+
+    // Buttons
+    button: {
+      // soft indigo/emerald accent; dark text for legibility
+      primary:
+        "bg-indigo-400 text-slate-950 hover:bg-indigo-300",
+      secondary:
+        "bg-emerald-300 text-slate-900 hover:bg-emerald-200",
+      ghost:
+        "border border-slate-300 text-slate-800 hover:bg-slate-100/80",
+    },
+
+    // Navigation
+    nav: {
+      active: "bg-indigo-100 text-slate-900",
+      inactive: "text-slate-700 hover:bg-slate-100/80",
+    },
+
     border: {
       subtle: "border-slate-200",
       strong: "border-slate-400",
@@ -70,6 +113,51 @@ const THEME_TOKENS = {
       strong: "border-white/30",
     },
   },
+
+  "high-contrast": {
+  // Very dark page; strong global contrast
+  page: "bg-black text-white",
+
+  // Surfaces stay dark so white text tokens always work
+  surface:
+    "bg-neutral-950 border border-white shadow-[0_0_0_1px_rgba(255,255,255,0.6)]",
+  card:
+    "bg-neutral-900 border border-white shadow-[0_0_0_1px_rgba(255,255,255,0.8)]",
+
+  text: {
+    // All text is light-on-dark; no white cards
+    primary: "text-white",
+    secondary: "text-neutral-100",
+    muted: "text-neutral-300",
+    label: "text-neutral-200",
+    bullet: "text-neutral-100",
+  },
+
+  button: {
+    // Primary: inverted for emphasis
+    primary:
+      "bg-white text-black hover:bg-neutral-100",
+    // Secondary: strong outline
+    secondary:
+      "bg-neutral-950 text-white border border-white hover:bg-neutral-900",
+    // Ghost: minimalist but visible
+    ghost:
+      "border border-white text-white hover:bg-white/10",
+  },
+
+  nav: {
+    // Active tab is clearly boxed and inverted
+    active: "bg-white text-black",
+    // Inactive keeps high contrast but slightly dimmer
+    inactive: "text-neutral-200 hover:bg-white/10",
+  },
+
+  border: {
+    subtle: "border-white/70",
+    strong: "border-white",
+  },
+},
+
 
   "frosted-glass": {
     page:
