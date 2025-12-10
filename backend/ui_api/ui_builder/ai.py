@@ -87,16 +87,15 @@ def _shorten(text: str, limit: int) -> str:
 
 # ---------------- Spec builder used by Preview & ZIP ---------------- #
 
-def _build_spec(layout: str, description: str, theme: str, complexity: int) -> Dict:
+def _build_spec(layout: str, description: str, theme: str) -> Dict:
     """
     Build the JSON spec that the frontend renderer (renderFromSpec)
-    will consume. This replaces the old simple component_tree.
+    will consume.
     """
     desc_short = _shorten(description or "", 180)
     spec: Dict = {
         "layout": layout,
         "theme": theme,
-        "complexity": complexity,
         "sections": [],
     }
 
@@ -255,7 +254,7 @@ def _build_spec(layout: str, description: str, theme: str, complexity: int) -> D
 
 # --------------- Public API used by views.py --------------- #
 
-def generate_from_description(description: str, theme: str, complexity: int) -> Dict:
+def generate_from_description(description: str, theme: str) -> Dict:
     """
     Main entry point used by the /generate-ui endpoint.
 
@@ -266,9 +265,9 @@ def generate_from_description(description: str, theme: str, complexity: int) -> 
     layout = classify_layout(description)
 
     # Build spec for frontend Preview tab
-    spec = _build_spec(layout, description, theme, complexity)
+    spec = _build_spec(layout, description, theme)
 
-    # New: GeneratedUI.jsx that uses the same renderer + spec as the Preview
+    # GeneratedUI.jsx that uses the same renderer + spec as the Preview
     spec_json = json.dumps(spec, indent=2)
     jsx_code = GENERATED_UI_TEMPLATE.replace("__SPEC__", spec_json)
 
@@ -279,15 +278,14 @@ def generate_from_description(description: str, theme: str, complexity: int) -> 
     }
 
     return {
-        "component_tree": spec,            # rich spec for Preview
-        "files": files,                    # code for ZIP / Code tab
+        "component_tree": spec,           # rich spec for Preview
+        "files": files,                   # code for ZIP / Code tab
         "preview_html": "<div id='root'></div>",
         "theme": theme,
-        "complexity": complexity,
     }
 
 
-def generate_from_sketch(file_obj, theme: str, complexity: int) -> Dict:
+def generate_from_sketch(file_obj, theme: str) -> Dict:
     # For now: treat sketch as generic dashboard
     description = "Layout inferred from sketch image."
-    return generate_from_description(description, theme, complexity)
+    return generate_from_description(description, theme)

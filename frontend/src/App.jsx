@@ -1,4 +1,3 @@
-import GeneratedUI from "./generated/GeneratedUI";
 import React, { useState } from "react";
 import { LayoutShell } from "./components/LayoutShell";
 import { InputPanel } from "./components/InputPanel";
@@ -11,7 +10,6 @@ export default function App() {
     "Create a modern analytics dashboard with sidebar, stat cards, and a traffic chart."
   );
   const [theme, setTheme] = useState("premium-dark");
-  const [complexity, setComplexity] = useState(3);
   const [sketchFile, setSketchFile] = useState(null);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -35,10 +33,9 @@ export default function App() {
         const formData = new FormData();
         formData.append("file", sketchFile);
         formData.append("theme", theme);
-        formData.append("complexity", complexity.toString());
         data = await uploadSketch(formData);
       } else {
-        data = await generateUI({ description, theme, complexity });
+        data = await generateUI({ description, theme });
       }
 
       setResult(data);
@@ -48,7 +45,7 @@ export default function App() {
         await saveProject({
           project_name: description.slice(0, 40) || "Untitled Project",
           description: description || "Sketch-based project",
-          files: data.files
+          files: data.files,
         });
       } catch (saveError) {
         console.error("Error saving project:", saveError);
@@ -85,12 +82,14 @@ export default function App() {
           onGenerate={handleGenerate}
           theme={theme}
           setTheme={setTheme}
-          complexity={complexity}
-          setComplexity={setComplexity}
           setSketchFile={setSketchFile}
           loading={loading}
         />
-        <OutputPanel result={result} loading={loading} onCopyCode={handleCopyCode} />
+        <OutputPanel
+          result={result}
+          loading={loading}
+          onCopyCode={handleCopyCode}
+        />
       </main>
     </LayoutShell>
   );

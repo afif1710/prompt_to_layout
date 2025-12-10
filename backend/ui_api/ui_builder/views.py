@@ -13,6 +13,7 @@ from .ai import generate_from_description, generate_from_sketch
 from .utils.zip_utils import create_zip_from_files
 from .utils.jsx_validator import validate_jsx_stub
 
+
 @api_view(["POST"])
 def generate_ui(request):
     """Generate UI from natural language description"""
@@ -22,9 +23,8 @@ def generate_ui(request):
 
     try:
         result = generate_from_description(
-            data["description"], 
-            data.get("theme", "minimal-light"), 
-            data.get("complexity", 3)
+            data["description"],
+            data.get("theme", "minimal-light"),
         )
 
         if not validate_jsx_stub(result["files"]):
@@ -37,8 +37,9 @@ def generate_ui(request):
     except Exception as e:
         return Response(
             {"detail": f"Error generating UI: {str(e)}"},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
 
 @api_view(["POST"])
 def upload_sketch(request):
@@ -49,9 +50,8 @@ def upload_sketch(request):
 
     try:
         result = generate_from_sketch(
-            data["file"], 
-            data.get("theme", "minimal-light"), 
-            data.get("complexity", 3)
+            data["file"],
+            data.get("theme", "minimal-light"),
         )
 
         if not validate_jsx_stub(result["files"]):
@@ -64,14 +64,16 @@ def upload_sketch(request):
     except Exception as e:
         return Response(
             {"detail": f"Error processing sketch: {str(e)}"},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
 
 @api_view(["GET"])
 def list_projects(request):
     """List all saved projects"""
     projects = Project.objects.all()[:30]
     return Response(ProjectSerializer(projects, many=True).data)
+
 
 @api_view(["POST"])
 def save_project(request):
@@ -82,14 +84,15 @@ def save_project(request):
     try:
         project = Project.objects.create(**serializer.validated_data)
         return Response(
-            ProjectSerializer(project).data, 
-            status=status.HTTP_201_CREATED
+            ProjectSerializer(project).data,
+            status=status.HTTP_201_CREATED,
         )
     except Exception as e:
         return Response(
             {"detail": f"Error saving project: {str(e)}"},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
+
 
 @api_view(["POST"])
 def download_zip(request):
@@ -99,13 +102,13 @@ def download_zip(request):
     if not isinstance(files, dict):
         return Response(
             {"detail": "files must be an object."},
-            status=status.HTTP_400_BAD_REQUEST
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
     if not files:
         return Response(
             {"detail": "No files provided."},
-            status=status.HTTP_400_BAD_REQUEST
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
     try:
@@ -116,5 +119,5 @@ def download_zip(request):
     except Exception as e:
         return Response(
             {"detail": f"Error creating ZIP: {str(e)}"},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )

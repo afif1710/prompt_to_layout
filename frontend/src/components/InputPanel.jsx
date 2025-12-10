@@ -8,8 +8,6 @@ export function InputPanel({
   onGenerate,
   theme,
   setTheme,
-  complexity,
-  setComplexity,
   setSketchFile,
   loading
 }) {
@@ -60,20 +58,6 @@ export function InputPanel({
 
       <ThemeToggle value={theme} onChange={setTheme} />
 
-      <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs text-slate-400">
-          <span>Component complexity</span>
-          <span className="text-slate-200">{complexity}</span>
-        </div>
-        <input
-          type="range"
-          min={1}
-          max={5}
-          value={complexity}
-          onChange={(e) => setComplexity(Number(e.target.value))}
-          className="w-full accent-brand-violet"
-        />
-      </div>
 
       <button
         type="button"
