@@ -28,6 +28,6 @@ COPY . /app
 RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 
-EXPOSE 8000
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120", "ui_api.wsgi:application"]
+EXPOSE $PORT
 
+CMD ["sh", "-c", "python3 manage.py migrate && exec gunicorn ui_api.wsgi:application --bind 0.0.0.0:$PORT"]
