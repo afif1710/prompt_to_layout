@@ -89,3 +89,29 @@ Layouts/components should use semantic tokens only (no hard-coded colors inside 
 cd frontend
 npm install
 npm run dev
+
+## Docker (DevOps Assignment)
+
+### Run the full stack
+
+docker compose up -d --build
+
+### Stop
+
+docker compose down
+
+### Services
+
+- Frontend: http://localhost:5173
+- Backend: http://localhost:8000
+
+### Docker Hub images
+
+- Frontend: https://hub.docker.com/r/afif1710/aiui-frontend
+- Backend: https://hub.docker.com/r/afif1710/aiui-backend
+
+### Documentation evidence
+
+- docs/docker-commands.md
+- docs/image-analysis.md
+- docs/dockerhub-push.md

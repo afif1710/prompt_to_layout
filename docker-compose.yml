@@ -1,7 +1,6 @@
 services:
   db:
     image: mysql:8.0
-    container_name: aiui_db
     restart: unless-stopped
     env_file:
       - .env
@@ -13,48 +12,70 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      # Better than mysqladmin ping: runs a real query to confirm readiness. [web:681]
       test: ["CMD-SHELL", "mysql -h 127.0.0.1 -u${DB_USER} -p${DB_PASSWORD} -e \"SELECT 1\" >/dev/null 2>&1"]
       interval: 5s
       timeout: 5s
       retries: 30
       start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 1024M
+    networks:
+      - aiui_net
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: aiui_backend
+    image: afif1710/aiui-backend:1.0.0
+    restart: unless-stopped
     env_file:
       - .env
     depends_on:
       db:
-        condition: service_healthy  # wait for MySQL healthcheck to pass [web:677][web:697]
-    restart: unless-stopped
-    volumes:
-      - ./backend:/app
+        condition: service_healthy
     ports:
       - "8000:8000"
-    command: python manage.py runserver 0.0.0.0:8000
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import socket; s=socket.create_connection(('127.0.0.1',8000),2); s.close()\""]
+      interval: 10s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: "0.75"
+          memory: 512M
+    networks:
+      - aiui_net
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: aiui_frontend
-    env_file:
-      - .env
+      args:
+        VITE_API_BASE_URL: "/api"
+    image: afif1710/aiui-frontend:1.0.0
+    restart: unless-stopped
     depends_on:
       backend:
-        condition: service_started
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    environment:
-      CHOKIDAR_USEPOLLING: "true"
+        condition: service_healthy
     ports:
-      - "5173:5173"
-    command: npm run dev -- --host 0.0.0.0
+      - "5173:80"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+    networks:
+      - aiui_net
 
 volumes:
   db_data:
+  
+networks:
+  aiui_net:
+    driver: bridge
