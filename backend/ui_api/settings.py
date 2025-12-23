@@ -61,17 +61,16 @@ WSGI_APPLICATION = "ui_api.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": os.getenv("DB_NAME", "ai_ui_builder"),
         "USER": os.getenv("DB_USER", "ai_user"),
         "PASSWORD": os.getenv("DB_PASSWORD", "ai_password"),
-        "HOST": os.getenv("DB_HOST", "127.0.0.1"),
-        "PORT": os.getenv("DB_PORT", "3306"),
-        "OPTIONS": {
-            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        "HOST": os.getenv("DB_HOST", "db"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
+
+
 
 
 AUTH_PASSWORD_VALIDATORS = []
