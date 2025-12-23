@@ -1,6 +1,8 @@
 import os
+import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
@@ -59,15 +61,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ui_api.wsgi.application"
 
+# Database
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME", "ai_ui_builder"),
-        "USER": os.getenv("DB_USER", "ai_user"),
-        "PASSWORD": os.getenv("DB_PASSWORD", "ai_password"),
-        "HOST": os.getenv("DB_HOST", "db"),
-        "PORT": os.getenv("DB_PORT", "5432"),
-    }
+    'default': dj_database_url.config(
+        default='postgresql://postgres:postgres@db:5432/ui_builder_db',  # For local docker-compose
+        conn_max_age=600
+    )
 }
 
 
