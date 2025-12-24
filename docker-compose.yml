@@ -29,7 +29,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: afif1710/aiui-backend:1.0.0
+   
     restart: unless-stopped
     env_file:
       - .env
@@ -58,8 +58,10 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_API_BASE_URL: "/api"
-    image: afif1710/aiui-frontend:1.0.0
+
     restart: unless-stopped
+    environment:
+      - VITE_API_URL=http://backend:8000/api  
     depends_on:
       backend:
         condition: service_healthy

@@ -64,15 +64,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ui_api.wsgi.application"
 
-# Database
+# Try DATABASE_URL first (for Render), then fall back to individual env vars (for local Docker)
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://postgres:postgres@db:5432/ui_builder_db',  # For local docker-compose
+        default=os.environ.get(
+            'DATABASE_URL',
+            f"postgresql://{os.getenv('DB_USER', 'postgres')}:{os.getenv('DB_PASSWORD', 'postgres')}@{os.getenv('DB_HOST', 'db')}:{os.getenv('DB_PORT', '5432')}/{os.getenv('DB_NAME', 'ui_builder_db')}"
+        ),
         conn_max_age=600
     )
 }
-
-
 
 
 AUTH_PASSWORD_VALIDATORS = []
