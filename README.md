@@ -1,6 +1,6 @@
-# Prompt_to_layout
+# prompt_to_layout
 
-Prompt_to_layout is a small layout playground: it turns a user prompt into a JSON layout spec, then renders a themed React + Tailwind preview using design tokens.
+**prompt_to_layout** is a layout playground: it turns a user prompt into a JSON layout spec, then renders a themed React + Tailwind preview using semantic design tokens.
 
 This is not a full “production UI code generator” yet — the goal is to explore layout ideas quickly while keeping styling consistent through a token system.
 
@@ -8,7 +8,7 @@ This is not a full “production UI code generator” yet — the goal is to exp
 
 ## What it does
 
-- Prompt → JSON layout spec
+- Prompt → JSON layout spec (currently template-based)
 - JSON spec → React layout preview (renderer)
 - Theme switching via semantic design tokens (single source of truth)
 
@@ -19,16 +19,20 @@ This is not a full “production UI code generator” yet — the goal is to exp
 - React + Vite (frontend)
 - Tailwind CSS (styling)
 - Token-based theming (semantic tokens)
-- Python backend may exist in the repo, but it’s not required for theme/layout work
+- Django backend (API) for layout generation
+- PostgreSQL (used in the full-stack Docker setup)
 
 ---
 
-## Current layouts
+## Current layouts (v1 templates)
+
+The generator currently maps supported prompt patterns to these 5 curated templates:
 
 - Dashboard
 - Auth
 - Pricing
 - Settings
+- Landing page
 
 ---
 
@@ -37,6 +41,8 @@ This is not a full “production UI code generator” yet — the goal is to exp
 - premium-dark
 - minimal-light
 - frosted-glass
+- soft-pastel
+- high-contrast
 
 ---
 
@@ -73,24 +79,30 @@ Layouts/components should use semantic tokens only (no hard-coded colors inside 
 
 ## Key files
 
-- frontend/src/theme/tokens.js
+- `frontend/src/theme/tokens.js`
   - All theme tokens live here (single source of truth).
-- frontend/src/layoutRenderer.jsx
+- `frontend/src/layoutRenderer.jsx`
   - Renders from a spec and applies tokens.
-- frontend/src/components/LayoutShell.jsx
+- `frontend/src/components/LayoutShell.jsx`
   - Editor/studio shell (kept consistent; not themed by preview theme).
-- frontend/src/App.jsx
+- `frontend/src/App.jsx`
   - Passes theme to the preview (not to the shell).
 
 ---
 
-## Run locally
+## Run locally (frontend only)
 
 cd frontend
 npm install
 npm run dev
 
-## Docker (DevOps Assignment)
+> Note: Prompt → layout generation requires the backend. Running only the frontend will limit you to whatever preview/demo behavior the UI provides.
+
+---
+
+## Docker (full stack)
+
+This repo includes a full-stack `docker compose` setup.
 
 ### Run the full stack
 
@@ -105,13 +117,33 @@ docker compose down
 - Frontend: http://localhost:5173
 - Backend: http://localhost:8000
 
-### Docker Hub images
+---
+
+## Export / “Download ZIP” (current)
+
+The ZIP export is developer-focused right now. It may require manual steps (install deps / run locally) to view the exported layout outside the in-app preview.
+
+---
+
+## Limitations / roadmap
+
+- Expand beyond 5 templates (more layouts + better prompt coverage).
+- Better scaffolding + clearer docs.
+- Improve the prompt → spec logic and add validation for the JSON schema.
+- Make the upload sketch feature functioning.
+- User authentication + Saving layout feature
+
+---
+
+## Docker Hub images
 
 - Frontend: https://hub.docker.com/r/afif1710/aiui-frontend
 - Backend: https://hub.docker.com/r/afif1710/aiui-backend
 
-### Documentation evidence
+---
 
-- docs/docker-commands.md
-- docs/image-analysis.md
-- docs/dockerhub-push.md
+## Documentation evidence
+
+- `docs/docker-commands.md`
+- `docs/image-analysis.md`
+- `docs/dockerhub-push.md`
